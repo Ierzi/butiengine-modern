@@ -3,7 +3,7 @@ import os
 import sys
 import rich
 from rich import print as rprint
-import piecetables
+import piecesquaretables as pst
 
 if not sys.version_info.major >= 3:
     print("You are using an outdated version of Python.")
@@ -23,6 +23,12 @@ class ButiEngine:
         """The modern version of my chess engine."""
         # Older private versions used a variable for the piece square tables
         # Now, this is moved to the piecetables/ folder.
+
+    def evaluate(self):
+        pass
+
+    def best_move(self):
+        pass
 
 
 if __name__ == "__main__":
