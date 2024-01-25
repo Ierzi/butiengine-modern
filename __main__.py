@@ -1,15 +1,3 @@
-import chess
-import os
-import sys
-import rich
-from rich import print as rprint
-import piecesquaretables as pst
-
-if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
-    print("You are using an outdated version of Python.")
-    print("Please download the new version of Python at python.org")
-
-
 # ButiEngine Modern by Ierzi.
 # A chess engine I made for fun, trying to keep the code as simple and documented as possible.
 # This is the modern version of my very first chess engine, ButiEngine, which didn't work. :(
@@ -17,6 +5,19 @@ if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
 # The creation started on January 23rd, 2024. There weren't much, just the main class (which was empty)
 # I really started creating it one day later, it came with the king square table and the main class.
 # Go see the commits history on the GitHub repository to know to full timeline.
+# -------------------------------------------------------------------------------------
+# Useful links: https://www.chessprogramming.org, https://github.com/Ierzi/butiengine-modern/wiki
+
+import chess
+import os
+import sys
+import rich
+import piecesquaretables as pst
+
+if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
+    print("You are using an outdated version of Python.")
+    print("Please download the new version of Python at python.org")
+
 
 # The main class of the engine
 class ButiEngine:
@@ -27,9 +28,9 @@ class ButiEngine:
 
     def evaluate(self, board: list[list[str]]):
         best_evaluation = float("-inf")
-        
 
-    def best_move(self):
+
+    def search(self, board: list[list[str]], depth: int = 3):
         pass
 
     @staticmethod

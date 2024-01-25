@@ -25,6 +25,7 @@ WHITE_PAWN_OPENING = (
     (0, 0, 0, 0, 0, 0, 0, 0)
 )
 
+# The Middlegame and Endgame piece square tables are 
 WHITE_PAWN_MIDDLEGAME = (
     (0, 0, 0, 0, 0, 0, 0, 0),
     (5, 10, 12.5, -10, -10, 12.5, 10, 5),
