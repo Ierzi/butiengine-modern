@@ -5,7 +5,7 @@ import rich
 from rich import print as rprint
 import piecesquaretables as pst
 
-if not sys.version_info.major >= 3:
+if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
     print("You are using an outdated version of Python.")
     print("Please download the new version of Python at python.org")
 
@@ -26,8 +26,8 @@ class ButiEngine:
         # Now, this is moved to the piecesquaretables/ folder.
 
     def evaluate(self, board: list[list[str]]):
-        evaluation = 0
-        fen = self.board_to_fen(board)
+        best_evaluation = float("-inf")
+        
 
     def best_move(self):
         pass
@@ -35,8 +35,91 @@ class ButiEngine:
     @staticmethod
     def board_to_fen(self, board: list[list[str]]) -> str:
         # The board to fen code is "stolen" from the original ButiEngine, which I used in MixusEngine too.
-        # It works, and that's the essential.
-        pass
+        # It works, and that's the essential. Probably not the most efficient way neither!
+
+        fen_voids = 0
+        is_not_first_time = False
+        fen = ""
+        for rank in range(8):
+
+            if is_not_first_time:
+                fen += "/"
+            else:
+                is_not_first_time = True
+
+            for file in range(8):
+                _piece = board[rank][file]
+                if _piece == ".":
+                    fen_voids += 1
+                    if fen_voids == 8:
+                        fen_voids = 0
+                        fen += f"8"
+                    elif file == 7:  # End of the line
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+
+                elif _piece == "P":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "P"
+                elif _piece == "p":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "p"
+                elif _piece == "N":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "N"
+                elif _piece == "n":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "n"
+                elif _piece == "B":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "B"
+                elif _piece == "b":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "b"
+                elif _piece == "R":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "R"
+                elif _piece == "r":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "r"
+                elif _piece == "Q":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "Q"
+                elif _piece == "q":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "q"
+                elif _piece == "K":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "K"
+                elif _piece == "k":
+                    if fen_voids != 0:
+                        fen += f"{fen_voids}"
+                        fen_voids = 0
+                    fen += "k"
+
+        return self.fen
 
 
 if __name__ == "__main__":
