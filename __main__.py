@@ -14,6 +14,7 @@ import sys
 import rich
 import piecesquaretables as pst
 
+# Checking for the minimum supported version to use
 if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
     print("You are using an outdated version of Python.")
     print("Please download the new version of Python at python.org")
