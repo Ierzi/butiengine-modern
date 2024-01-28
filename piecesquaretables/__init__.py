@@ -25,7 +25,7 @@ WHITE_PAWN_OPENING = (
     (0, 0, 0, 0, 0, 0, 0, 0)
 )
 
-# The Middlegame and Endgame piece square tables are 
+# The Middlegame and Endgame piece square tables are
 WHITE_PAWN_MIDDLEGAME = (
     (0, 0, 0, 0, 0, 0, 0, 0),
     (5, 10, 12.5, -10, -10, 12.5, 10, 5),
@@ -50,3 +50,16 @@ WHITE_PAWN_ENDGAME = (
 BLACK_PAWN_OPENING = reversed(WHITE_PAWN_OPENING)
 BLACK_PAWN_MIDDLEGAME = reversed(WHITE_PAWN_MIDDLEGAME)
 BLACK_PAWN_ENDGAME = reversed(WHITE_PAWN_ENDGAME)
+
+WHITE_KNIGHT = (
+    (-50, -40, -30, -30, -30, -30, -40, -50),
+    (-40, -20,  0,  5,  5,  0, -20, -40),
+    (-30,  5, 10, 15, 15, 10,  5, -30),
+    (-30,  0, 15, 20, 20, 15,  0, -30),
+    (-30,  5, 15, 20, 20, 15,  5, -30),
+    (-30,  0, 10, 15, 15, 10,  0, -30),
+    (-40, -20,  0,  0,  0,  0, -20, -40),
+    (-50, -40, -30, -30, -30, -30, -40, -50)
+)
+
+BLACK_KNIGHT = reversed(WHITE_KNIGHT)
