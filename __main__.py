@@ -27,11 +27,45 @@ class ButiEngine:
         # Now, this is moved to the piecesquaretables/ folder.
 
     def evaluate(self, board: list[list[str]]):
-        best_evaluation = float("-inf")
-
+        pass
+        # best_evaluation = float("-inf")
 
     def search(self, board: list[list[str]], depth: int = 3):
         pass
+
+    def _search_min(self, board: chess.Board, depth: int, alpha: int, beta: int):
+
+        if depth == 0:
+            return -self.evaluate()
+
+        for move in board.legal_moves:
+            board.push(move)
+            score = self._search_max(board, depth - 1, alpha, beta)
+            board.pop()
+
+            if score <= alpha:
+                return alpha
+            if score < beta:
+                beta = score
+
+        return beta
+
+    def _search_max(self, board: chess.Board, depth: int, alpha: int, beta: int):
+
+        if depth == 0:
+            return self.evaluate()
+
+        for move in board.legal_moves:
+            board.push(move)
+            score = self._search_min(board, depth - 1, -alpha, -beta)
+            board.pop()
+
+            if score <= alpha:
+                return alpha
+            if score < beta:
+                beta = score
+
+        return beta
 
     @staticmethod
     def board_to_fen(self, board: list[list[str]]) -> str:
