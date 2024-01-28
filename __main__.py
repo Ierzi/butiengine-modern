@@ -27,16 +27,17 @@ class ButiEngine:
         # Older private versions used a variable for the piece square tables
         # Now, this is moved to the piecesquaretables/ folder.
 
-    def evaluate(self, board: list[list[str]]):
+    def evaluate(self, board: list[list[str]]) -> int:
         pass
         # best_evaluation = float("-inf")
 
-    def search(self, board: list[list[str]], depth: int = 3):
+    def search(self, board: list[list[str]], turn: bool, depth: int = 3):
         pass
 
-    def _search_min(self, board: chess.Board, depth: int, alpha: int, beta: int):
+    def _search_min(self, board: chess.Board, depth: int, alpha: int, beta: int) -> int:
 
         if depth == 0:
+            _board = self.fen_to_board(board.fen())
             return -self.evaluate()
 
         for move in board.legal_moves:
@@ -51,7 +52,7 @@ class ButiEngine:
 
         return beta
 
-    def _search_max(self, board: chess.Board, depth: int, alpha: int, beta: int):
+    def _search_max(self, board: chess.Board, depth: int, alpha: int, beta: int) -> int:
 
         if depth == 0:
             return self.evaluate()
@@ -69,7 +70,7 @@ class ButiEngine:
         return beta
 
     @staticmethod
-    def board_to_fen(self, board: list[list[str]]) -> str:
+    def board_to_fen(board: list[list[str]]) -> str:
         # The board to fen code is "stolen" from the original ButiEngine, which I used in MixusEngine too.
         # It works, and that's the essential. Probably not the most efficient way neither!
 
@@ -155,7 +156,37 @@ class ButiEngine:
                         fen_voids = 0
                     fen += "k"
 
-        return self.fen
+        return fen
+
+    @staticmethod
+    def fen_to_board(fen: str) -> list[list[str]]:
+        board: list[list[str]]
+
+        # Split the FEN string into separate components
+        fen_parts = fen.split()
+        fen_position = fen_parts[0]  # Position component of FEN
+
+        # Convert FEN position string to nested list representation
+        rank_strings = fen_position.split('/')
+
+        for rank, rank_string in enumerate(rank_strings):
+            file_index = 0
+
+            for char in rank_string:
+                if char.isdigit():
+                    file_index += int(char)
+                else:
+                    piece = char
+                    board[7 - rank][file_index] = piece
+                    file_index += 1
+
+        # Replace None with "."
+        for rank in range(8):
+            for file in range(8):
+                if board[rank][file] is None:
+                    board[rank][file] = "."
+
+        return board
 
 
 if __name__ == "__main__":
