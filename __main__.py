@@ -8,16 +8,25 @@
 # -------------------------------------------------------------------------------------
 # Useful links: https://www.chessprogramming.org, https://github.com/Ierzi/butiengine-modern/wiki
 
+from rich import console
+console = console.Console()
+
+console.status("Loading ButiEngine...").start()
+
 import chess
 import os
 import sys
-import rich
 import piecesquaretables as pst
+from typing import Literal
+
+console.log("Successfully loaded libraries.")
 
 # Checking for the minimum supported version to use
 if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
-    print("You are using an outdated version of Python.")
-    print("Please download the new version of Python at python.org")
+    console.print("[red]You're using an outdated version of Python. Please download the latest version at python.org")
+    sys.exit(1)
+
+console.log("Using the right version of Python.")
 
 
 # The main class of the engine
@@ -27,10 +36,15 @@ class ButiEngine:
         # Older private versions used a variable for the piece square tables
         # Now, this is moved to the piecesquaretables/ folder.
 
+    def get_game_phase(self, board: list[list[str]]) -> Literal["OPENING", "MIDDLEGAME", "ENDGAME"]:
+        pass
+
     def evaluate(self, board: list[list[str]]) -> int:
+        score_list = []
         for index, row in enumerate(board):
             for index2, case in enumerate(row):
-                ...
+                score_list.append(pst.piecesquaretables_score(case, (index, index2), game_phase=self.get_game_phase()))
+
         return 0
 
     def search(self, board: list[list[str]], turn: bool, depth: int = 3):
@@ -40,7 +54,7 @@ class ButiEngine:
 
         if depth == 0:
             _board = self.fen_to_board(board.fen())
-            return -self.evaluate()
+            return -self.evaluate(_board)
 
         for move in board.legal_moves:
             board.push(move)
@@ -57,7 +71,8 @@ class ButiEngine:
     def _search_max(self, board: chess.Board, depth: int, alpha: int, beta: int) -> int:
 
         if depth == 0:
-            return self.evaluate()
+            _board = self.fen_to_board(board.fen())
+            return self.evaluate(_board)
 
         for move in board.legal_moves:
             board.push(move)
@@ -189,6 +204,9 @@ class ButiEngine:
                     board[rank][file] = "."
 
         return board
+
+
+console.log("Successfully loaded the main class.")
 
 
 if __name__ == "__main__":
