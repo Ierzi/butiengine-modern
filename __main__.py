@@ -28,8 +28,10 @@ class ButiEngine:
         # Now, this is moved to the piecesquaretables/ folder.
 
     def evaluate(self, board: list[list[str]]) -> int:
-        pass
-        # best_evaluation = float("-inf")
+        for index, row in enumerate(board):
+            for index2, case in enumerate(row):
+                ...
+        return 0
 
     def search(self, board: list[list[str]], turn: bool, depth: int = 3):
         pass
@@ -191,3 +193,4 @@ class ButiEngine:
 
 if __name__ == "__main__":
     buti = ButiEngine()
+    print(chess.STARTING_FEN)
