@@ -10,7 +10,6 @@
 
 from rich.console import Console
 import chess
-import os
 import sys
 import piecesquaretables as pst
 from typing import Literal
@@ -31,8 +30,20 @@ class ButiEngine:
         # Older private versions used a variable for the piece square tables
         # Now, this is moved to the piecesquaretables/ folder.
 
-    def get_game_phase(self, board: list[list[str]]) -> Literal["OPENING", "MIDDLEGAME", "ENDGAME"]:
-        pass
+    @staticmethod
+    def get_game_phase(board: list[list[str]]) -> Literal["OPENING", "MIDDLEGAME", "ENDGAME"]:
+        not_empty = 0
+        for index, row in enumerate(board):
+            for index2, case in enumerate(row):
+                if case != ".":
+                    not_empty += 1
+
+        if not_empty <= 10:
+            return "ENDGAME"
+        elif not_empty <= 26:
+            return "MIDDLEGAME"
+
+        return "OPENING"
 
     def evaluate(self, board: list[list[str]]) -> int:
         score_list = []
@@ -203,4 +214,4 @@ class ButiEngine:
 
 if __name__ == "__main__":
     buti = ButiEngine()
-    print(chess.STARTING_FEN)
+    console.rule("Welcome to ButiEngine")
