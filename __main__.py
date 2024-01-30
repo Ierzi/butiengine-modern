@@ -8,25 +8,20 @@
 # -------------------------------------------------------------------------------------
 # Useful links: https://www.chessprogramming.org, https://github.com/Ierzi/butiengine-modern/wiki
 
-from rich import console
-console = console.Console()
-
-console.status("Loading ButiEngine...").start()
-
+from rich.console import Console
 import chess
 import os
 import sys
 import piecesquaretables as pst
 from typing import Literal
 
-console.log("Successfully loaded libraries.")
+console = Console()
+
 
 # Checking for the minimum supported version to use
 if not sys.version_info.major <= 3 or sys.version_info.minor < 5:
     console.print("[red]You're using an outdated version of Python. Please download the latest version at python.org")
     sys.exit(1)
-
-console.log("Using the right version of Python.")
 
 
 # The main class of the engine
@@ -204,9 +199,6 @@ class ButiEngine:
                     board[rank][file] = "."
 
         return board
-
-
-console.log("Successfully loaded the main class.")
 
 
 if __name__ == "__main__":
