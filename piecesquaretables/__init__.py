@@ -81,9 +81,11 @@ WHITE_BISHOP = (
 BLACK_BISHOP = tuple(reversed(WHITE_BISHOP))
 
 
-def piecesquaretables_score(case: str, location: tuple[int, int], *,
-                            game_phase: Literal["OPENING", "MIDDLEGAME", "ENDGAME"] | None = None
-                            ):
+def piecesquaretables_score(case: str, location: tuple[int, int], turn: bool, *,
+        game_phase: Literal["OPENING", "MIDDLEGAME", "ENDGAME"] | None = None
+    ):
+
+    score = 0
 
     if case == "p":
         if game_phase == "OPENING":

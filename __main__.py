@@ -32,6 +32,9 @@ class ButiEngine:
 
     @staticmethod
     def get_game_phase(board: list[list[str]]) -> Literal["OPENING", "MIDDLEGAME", "ENDGAME"]:
+        """A simple function for getting the game's current phase (either the opening, the middlegame or the endgame)
+        :param board: The board used to get the current game phase
+        :returns: The game phase in capitals (either 'OPENING', 'MIDDLEGAME' or 'ENDGAME')"""
         not_empty = 0
         for index, row in enumerate(board):
             for index2, case in enumerate(row):
@@ -45,16 +48,34 @@ class ButiEngine:
 
         return "OPENING"
 
-    def evaluate(self, board: list[list[str]]) -> int:
+    def evaluate(self, board: list[list[str]], turn: bool) -> int:
         score_list = []
         for index, row in enumerate(board):
             for index2, case in enumerate(row):
-                score_list.append(pst.piecesquaretables_score(case, (index, index2), game_phase=self.get_game_phase()))
+                score_list.append(pst.piecesquaretables_score(case, (index, index2), turn,
+                                                              game_phase=self.get_game_phase())
+                )
 
         return 0
 
-    def search(self, board: list[list[str]], turn: bool, depth: int = 3):
-        pass
+    def search(self, board: list[list[str]], depth: int = 3):
+        fen = self.board_to_fen(board)
+        chess_board = chess.Board(fen)
+        alpha = float('-inf')
+        beta = float('inf')
+        max_score = float('-inf')
+        best_move = None
+
+        for move in chess_board.legal_moves:
+            chess_board.push(move)
+            score = self._search_max(chess_board, depth - 1, alpha, beta, False)
+            chess_board.pop()
+
+            if score > max_score:
+                max_score = score
+                best_move = move
+
+        return best_move
 
     def _search_min(self, board: chess.Board, depth: int, alpha: int, beta: int) -> int:
 
@@ -183,7 +204,7 @@ class ButiEngine:
 
     @staticmethod
     def fen_to_board(fen: str) -> list[list[str]]:
-        board: list[list[str]]
+        board: list[list[str]] = []
 
         # Split the FEN string into separate components
         fen_parts = fen.split()
@@ -214,4 +235,22 @@ class ButiEngine:
 
 if __name__ == "__main__":
     buti = ButiEngine()
+    board = []
     console.rule("Welcome to ButiEngine")
+    console.print("Version PUBLIC BETA 22.")
+    while True:
+        command = console.input("Write a command: ").strip().lower()
+        if command.startswith("quit"):
+            if command.endswith("--force"):
+                sys.exit(-1)
+            quitting = console.input("[red]Are you sure you want to quit? [purple]Yes/No ").strip().title()
+            if quitting == "Yes":
+                sys.exit(-1)
+        elif command.startswith("setboard"):
+            if command.endswith("default"):
+                board = buti.fen_to_board(chess.STARTING_FEN)
+            else:
+                desired_fen = console.input("Enter your desired FEN: ")
+                board = buti.fen_to_board(desired_fen)
+        elif command == "eval" or command == "evaluate":
+            console.print(buti.evaluate(board))
